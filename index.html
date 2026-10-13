@@ -1,1 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EngageHub · free user engagement tool</title>
+  <!-- Google Font & simple CSS reset -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #f9faff 0%, #eef2f9 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: #1a1f36;
+    }
+
+    .engage-card {
+      max-width: 780px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+      padding: 2rem 2rem 2.5rem;
+      transition: all 0.2s ease;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #1e2b4f, #2f3e6b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .subhead {
+      font-size: 1.05rem;
+      color: #4b5675;
+      margin-bottom: 2rem;
+      border-left: 4px solid #6d8cff;
+      padding-left: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* stats row */
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      background: #ffffffd9;
+      border-radius: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 20, 50, 0.06);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-weight: 600;
+      color: #68718b;
+    }
+
+    .stat-value {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1b2647;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .stat-value span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #4a6cf7;
+      background: #eef3ff;
+      padding: 0.15rem 0.6rem;
+      border-radius: 100px;
+    }
+
+    /* main engagement panel */
+    .engage-panel {
+      background: #ffffff;
+      border-radius: 2rem;
+      padding: 1.8rem 1.8rem 2rem;
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08);
+      border: 1px solid #eef2f9;
+    }
+
+    .greeting {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1e2b4f;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 0.25rem 0.8rem;
+      border-radius: 100px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.5rem 0 1.8rem;
+    }
+
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .input-row input {
+      flex: 1 1 200px;
+      padding: 0.9rem 1.2rem;
+      border-radius: 60px;
+      border: 1.5px solid #e2e8f0;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: #f9fbfe;
+      transition: all 0.2s;
+      outline: none;
+      color: #1a1f36;
+      font-weight: 500;
+    }
+
+    .input-row input:focus {
+      border-color: #6d8cff;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(109, 140, 255, 0.15);
+    }
+
+    .input-row input::placeholder {
+      color: #9aa5bf;
+      font-weight: 400;
+    }
+
+    .btn {
+      border: none;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: #1e2b4f;
+      color: white;
+      box-shadow: 0 8px 18px -6px rgba(30, 43, 79, 0.3);
+      border: 1px solid #2f3e6b;
+    }
+
+    .btn-primary:hover {
+      background: #2f3e6b;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px -8px rgba(30, 43, 79, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0px);
+      box-shadow: 0 4px 10px -4px rgba(30, 43, 79, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #d0d9e8;
+      color: #3a4663;
+    }
+
+    .btn-outline:hover {
+      background: #f2f6fe;
+      border-color: #b8c6e0;
+    }
+
+    .reaction-section {
+      margin-top: 1.2rem;
+    }
+
+    .reaction-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4b5675;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .reaction-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .reaction-btn {
+      background: #f1f5fe;
+      border: 1.5px solid #e0e8f5;
+      font-size: 1.3rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: inherit;
+      font-weight: 500;
+      color: #2b3b63;
+      line-height: 1;
+    }
+
+    .reaction-btn span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2b3b63;
+    }
+
+    .reaction-btn:hover {
+      background: #e6edfe;
+      border-color: #b7c8f0;
+      transform: scale(1.02);
+    }
+
+    .reaction-btn:active {
+      transform: scale(0.98);
+    }
+
+    .reaction-btn.reacted {
+      background: #e3ebff;
+      border-color: #6d8cff;
+      box-shadow: 0 0 0 3px rgba(109, 140, 255, 0.2);
+    }
+
+    /* activity feed */
+    .activity-feed {
+      margin-top: 2rem;
+      background: #f8faff;
+      border-radius: 1.75rem;
+      padding: 1.5rem 1.5rem 1.2rem;
+      border: 1px solid #e2eaf5;
+    }
+
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .feed-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2b3b63;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #7a88a8;
+      cursor: pointer;
+      padding: 0.3rem 0.8rem;
+      border-radius: 60px;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .clear-btn:hover {
+      background: #e1e9f8;
+      color: #2b3b63;
+    }
+
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 230px;
+      overflow-y: auto;
+      padding-right: 0.3rem;
+    }
+
+    .feed-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .feed-list::-webkit-scrollbar-track {
+      background: #e7edf8;
+      border-radius: 20px;
+    }
+
+    .feed-list::-webkit-scrollbar-thumb {
+      background: #b8c6e0;
+      border-radius: 20px;
+    }
+
+    .feed-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #ffffff;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      border: 1px solid #e2eaf5;
+      animation: fadeSlide 0.25s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .feed-avatar {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #6d8cff, #a8bfff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: white;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .feed-text {
+      flex: 1;
+      color: #2f3e6b;
+      font-weight: 500;
+    }
+
+    .feed-text strong {
+      font-weight: 700;
+      color: #1e2b4f;
+    }
+
+    .feed-emoji {
+      font-size: 1.2rem;
+      background: #f1f5fe;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .feed-time {
+      font-size: 0.7rem;
+      color: #8a96b5;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #8a96b5;
+      font-size: 0.9rem;
+      padding: 1.5rem 0.5rem;
+      font-style: italic;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e2b4f;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.25);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 1.8rem;
+      color: #7b88a8;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .footer-note a {
+      color: #4a6cf7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 550px) {
+      .engage-card {
+        padding: 1.5rem 1.2rem 2rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .input-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn {
+        width: 100%;
+      }
+      .stats {
+        justify-content: center;
+        gap: 1.2rem;
+      }
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="engage-card">
+    <h1>
+      <span>✨ EngageHub</span>
+    </h1>
+    <div class="subhead">A free tool to spark interaction — leave a note, drop a reaction, and see the community pulse.</div>
+
+    <!-- Live statistics (engagement metrics) -->
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-label">👥 total interactions</span>
+        <div class="stat-value" id="totalInteractions">0</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">💬 messages</span>
+        <div class="stat-value" id="messageCount">0</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">❤️ reactions</span>
+        <div class="stat-value" id="reactionCount">0</div>
+      </div>
+    </div>
+
+    <!-- Main engagement panel -->
+    <div class="engage-panel">
+      <div class="greeting">
+        <span>👋 Say something nice</span>
+        <span class="badge">live</span>
+      </div>
+
+      <div class="input-group">
+        <div class="input-row">
+          <input type="text" id="nameInput" placeholder="Your name (optional)" maxlength="30" autocomplete="off">
+          <input type="text" id="messageInput" placeholder="Share a thought or feedback..." maxlength="100" autocomplete="off">
+          <button class="btn btn-primary" id="submitMessage">
+            <span>Send</span> 🚀
+          </button>
+        </div>
+      </div>
+
+      <!-- Reaction buttons -->
+      <div class="reaction-section">
+        <div class="reaction-label">Quick reactions</div>
+        <div class="reaction-buttons" id="reactionButtons">
+          <button class="reaction-btn" data-reaction="👍" data-label="like">
+            👍 <span>Like</span>
+          </button>
+          <button class="reaction-btn" data-reaction="❤️" data-label="love">
+            ❤️ <span>Love</span>
+          </button>
+          <button class="reaction-btn" data-reaction="🔥" data-label="fire">
+            🔥 <span>Fire</span>
+          </button>
+          <button class="reaction-btn" data-reaction="👏" data-label="clap">
+            👏 <span>Clap</span>
+          </button>
+          <button class="reaction-btn" data-reaction="😊" data-label="smile">
+            😊 <span>Smile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity feed (recent engagements) -->
+    <div class="activity-feed">
+      <div class="feed-header">
+        <h3>📋 Recent activity</h3>
+        <button class="clear-btn" id="clearFeed">clear all</button>
+      </div>
+      <div class="feed-list" id="feedList">
+        <!-- dynamic feed items appear here -->
+        <div class="empty-state">No activity yet — be the first to engage!</div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      free & open · <a href="#" id="resetAllLink">reset all data</a> · every interaction counts
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function() {
+      // ---------- state ----------
+      let interactions = [];          // array of { id, name, text, type, reactionEmoji, label, timestamp }
+      let messageCount = 0;
+      let reactionCount = 0;
+
+      // DOM elements
+      const totalInteractionsEl = document.getElementById('totalInteractions');
+      const messageCountEl = document.getElementById('messageCount');
+      const reactionCountEl = document.getElementById('reactionCount');
+      const feedList = document.getElementById('feedList');
+      const nameInput = document.getElementById('nameInput');
+      const messageInput = document.getElementById('messageInput');
+      const submitBtn = document.getElementById('submitMessage');
+      const reactionButtons = document.querySelectorAll('.reaction-btn');
+      const clearFeedBtn = document.getElementById('clearFeed');
+      const resetAllLink = document.getElementById('resetAllLink');
+      const toastEl = document.getElementById('toast');
+
+      // ---------- helper: show toast ----------
+      let toastTimeout;
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 1800);
+      }
+
+      // ---------- update UI (stats + feed) ----------
+      function updateStats() {
+        totalInteractionsEl.textContent = interactions.length;
+        messageCountEl.textContent = messageCount;
+        reactionCountEl.textContent = reactionCount;
+      }
+
+      // ---------- render feed from interactions (most recent first) ----------
+      function renderFeed() {
+        // clear feed container
+        feedList.innerHTML = '';
+
+        if (interactions.length === 0) {
+          feedList.innerHTML = '<div class="empty-state">No activity yet — be the first to engage!</div>';
+          return;
+        }
+
+        // sort by newest first (higher timestamp first)
+        const sorted = [...interactions].sort((a, b) => b.timestamp - a.timestamp);
+
+        sorted.forEach(item => {
+          const feedItem = document.createElement('div');
+          feedItem.className = 'feed-item';
+
+          // avatar (first letter of name or '?' )
+          const avatarLetter = item.name ? item.name.charAt(0).toUpperCase() : '?';
+          const avatar = document.createElement('div');
+          avatar.className = 'feed-avatar';
+          avatar.textContent = avatarLetter;
+
+          // main text
+          const textDiv = document.createElement('div');
+          textDiv.className = 'feed-text';
+
+          if (item.type === 'message') {
+            // message item
+            if (item.name) {
+              textDiv.innerHTML = `<strong>${escapeHtml(item.name)}</strong> ${escapeHtml(item.text)}`;
+            } else {
+              textDiv.innerHTML = `<strong>Anonymous</strong> ${escapeHtml(item.text)}`;
+            }
+          } else {
+            // reaction item
+            const label = item.label || 'reacted';
+            if (item.name) {
+              textDiv.innerHTML = `<strong>${escapeHtml(item.name)}</strong> reacted with ${item.reactionEmoji} ${label}`;
+            } else {
+              textDiv.innerHTML = `<strong>Anonymous</strong> reacted with ${item.reactionEmoji} ${label}`;
+            }
+          }
+
+          // emoji or icon representation
+          const emojiDiv = document.createElement('div');
+          emojiDiv.className = 'feed-emoji';
+          if (item.type === 'message') {
+            emojiDiv.textContent = '💬';
+          } else {
+            emojiDiv.textContent = item.reactionEmoji || '👍';
+          }
+
+          // time ago (simple)
+          const timeSpan = document.createElement('div');
+          timeSpan.className = 'feed-time';
+          const secondsAgo = Math.floor((Date.now() - item.timestamp) / 1000);
+          if (secondsAgo < 10) timeSpan.textContent = 'just now';
+          else if (secondsAgo < 60) timeSpan.textContent = `${secondsAgo}s ago`;
+          else if (secondsAgo < 3600) timeSpan.textContent = `${Math.floor(secondsAgo / 60)}m ago`;
+          else timeSpan.textContent = `${Math.floor(secondsAgo / 3600)}h ago`;
+
+          feedItem.appendChild(avatar);
+          feedItem.appendChild(textDiv);
+          feedItem.appendChild(emojiDiv);
+          feedItem.appendChild(timeSpan);
+          feedList.appendChild(feedItem);
+        });
+      }
+
+      // simple HTML escape
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>"]/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          if (m === '"') return '&quot;';
+          return m;
+        });
+      }
+
+      // ---------- core functions: add message / add reaction ----------
+      function addMessage(name, text) {
+        if (!text || text.trim() === '') {
+          showToast('Please write a message first ✍️');
+          return false;
+        }
+
+        const trimmedName = name && name.trim() !== '' ? name.trim().slice(0, 30) : '';
+        const trimmedText = text.trim().slice(0, 100);
+
+        const newInteraction = {
+          id: Date.now() + Math.random(),
+          name: trimmedName || null,
+          text: trimmedText,
+          type: 'message',
+          reactionEmoji: null,
+          label: null,
+          timestamp: Date.now(),
+        };
+
+        interactions.push(newInteraction);
+        messageCount++;
+        updateStats();
+        renderFeed();
+
+        // clear message input, keep name maybe
+        messageInput.value = '';
+        // focus message for next entry
+        messageInput.focus();
+
+        showToast('Message sent! 🎉');
+        return true;
+      }
+
+      function addReaction(reactionEmoji, label, name = null) {
+        // use name from input if available
+        const nameInputVal = nameInput.value.trim();
+        const finalName = nameInputVal !== '' ? nameInputVal.slice(0, 30) : (name ? name.slice(0, 30) : null);
+
+        const newInteraction = {
+          id: Date.now() + Math.random(),
+          name: finalName,
+          text: null,
+          type: 'reaction',
+          reactionEmoji: reactionEmoji,
+          label: label || 'reacted',
+          timestamp: Date.now(),
+        };
+
+        interactions.push(newInteraction);
+        reactionCount++;
+        updateStats();
+        renderFeed();
+
+        showToast(`You reacted with ${reactionEmoji} ${label || ''}`);
+
+        // Optional: temporary "reacted" visual on the button
+        const btn = Array.from(reactionButtons).find(b => b.dataset.reaction === reactionEmoji);
+        if (btn) {
+          btn.classList.add('reacted');
+          setTimeout(() => btn.classList.remove('reacted'), 300);
+        }
+        return true;
+      }
+
+      // ---------- event listeners ----------
+      // Submit message
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const name = nameInput.value;
+        const msg = messageInput.value;
+        addMessage(name, msg);
+      });
+
+      // Enter key in message input triggers send
+      messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const name = nameInput.value;
+          const msg = messageInput.value;
+          addMessage(name, msg);
+        }
+      });
+
+      // Reaction buttons
+      reactionButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const reaction = this.dataset.reaction;
+          const label = this.dataset.label;
+          // Get name from input (if any)
+          const name = nameInput.value.trim();
+          addReaction(reaction, label, name || null);
+        });
+      });
+
+      // Clear feed (remove all interactions, reset counters)
+      clearFeedBtn.addEventListener('click', function() {
+        if (interactions.length === 0) return;
+        if (confirm('Clear all activity? This cannot be undone.')) {
+          interactions = [];
+          messageCount = 0;
+          reactionCount = 0;
+          updateStats();
+          renderFeed();
+          showToast('Activity cleared');
+        }
+      });
+
+      // Reset all data (same as clear but maybe no confirm? we use confirm too)
+      resetAllLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (interactions.length === 0) {
+          showToast('Nothing to reset');
+          return;
+        }
+        if (confirm('Reset all engagement data? This will remove everything.')) {
+          interactions = [];
+          messageCount = 0;
+          reactionCount = 0;
+          updateStats();
+          renderFeed();
+          nameInput.value = '';
+          messageInput.value = '';
+          showToast('All data reset');
+        }
+      });
+
+      // Update relative times every 20 seconds (so "just now" changes)
+      setInterval(() => {
+        if (interactions.length > 0) {
+          renderFeed();
+        }
+      }, 20000);
+
+      // ---------- initial load ----------
+      function init() {
+        // Optionally prefill with a friendly welcome message? we skip to keep clean.
+        // Instead we add a tiny welcome interaction? To not confuse, keep empty.
+        // But we want the feed to show the empty state.
+        updateStats();
+        renderFeed();
+
+        // add a subtle hello from the system? — nope, user should start.
+        // but we can set a placeholder for demonstration — actually let's keep it clean.
+        // however if we want to show some demo, we can uncomment next lines (but it would add data).
+        // We'll keep it empty for real free use.
+      }
+
+      init();
+
+      // (Optional) if you want to add a soft welcome interaction, uncomment:
+      // setTimeout(() => {
+      //   interactions.push({
+      //     id: Date.now(),
+      //     name: 'EngageHub',
+      //     text: 'Welcome! Try sending a message or a reaction 👋',
+      //     type: 'message',
+      //     reactionEmoji: null,
+      //     label: null,
+      //     timestamp: Date.now()
+      //   });
+      //   messageCount++;
+      //   updateStats();
+      //   renderFeed();
+      // }, 300);
+    })();
+  </script>
+</body>
+</html>
